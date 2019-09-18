@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
@@ -35,7 +36,12 @@ public class TeleOP extends LinearOpMode {
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
-        
+
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+
         /* Waits till user hits start to execute any loc
         after the statement and also sets time variable
         back to zero */
@@ -44,19 +50,34 @@ public class TeleOP extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double lr = gamepad1.left_stick_y;
-            double fb  =  gamepad1.left_stick_x;
+            double lr = gamepad1.left_stick_x;
+            double fb  =  gamepad1.left_stick_y;
 
-            if (lr == 1 || lr == -1){
-                backleftdrive.setPower(lr);
-                frontleftdrive.setPower(lr);
-                backrightdrive.setPower(lr);
-                frontrightdrive.setPower(lr);
-            } else if (fb == 1 || fb == -1){
-                backleftdrive.setPower(fb);
-                frontleftdrive.setPower(fb);
-                backrightdrive.setPower(fb);
-                frontrightdrive.setPower(fb);
+            if (lr == 1){
+                FrontRight.setPower(-lr);
+                FrontLeft.setPower(lr);
+                BackRight.setPower(lr);
+                BackLeft.setPower(-lr);
+            } else if (lr == -1){
+                FrontRight.setPower(-lr);
+                FrontLeft.setPower(lr);
+                BackRight.setPower(lr);
+                BackLeft.setPower(-lr);
+            } else if (fb == 1){
+                FrontRight.setPower(-fb);
+                FrontLeft.setPower(-fb);
+                BackRight.setPower(-fb);
+                BackLeft.setPower(-fb);
+            } else if (fb == -1){
+                FrontRight.setPower(-fb);
+                FrontLeft.setPower(-fb);
+                BackRight.setPower(-fb);
+                BackLeft.setPower(-fb);
+            } else {
+                FrontRight.setPower(0);
+                FrontLeft.setPower(0);
+                BackRight.setPower(0);
+                BackLeft.setPower(0);
             }
 
             // Adds telmetry that shows how long the program has been running
